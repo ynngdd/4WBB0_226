@@ -18,6 +18,7 @@ boolean isInRoom = 0;
  
 void setup() 
 {
+  pinMode(5, OUTPUT);
   Serial.begin(9600);   // Initiate a serial communication
   SPI.begin();      // Initiate  SPI bus
   mfrc522.PCD_Init();   // Initiate MFRC522
@@ -56,7 +57,12 @@ void loop()
     Serial.println("Authorized access");
     Serial.println();
     isInRoom = !isInRoom;
-    Serial.write(isInRoom);
+    if(isInRoom) {
+      digitalWrite(5, HIGH);
+      }
+    else {
+      digitalWrite(5, LOW);
+      }
     Serial.println(isInRoom);
     delay(3000);
   }
