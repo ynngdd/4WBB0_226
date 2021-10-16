@@ -18,9 +18,12 @@
 const char* deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
 const char* deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
 
-bool gesture = 0;  
+bool gesture = 0;
+int data_rcvd = 0;
+  
 
 void setup() {
+  pinMode(5,INPUT);
   Serial.begin(9600);
   while (!Serial);
   
@@ -105,9 +108,9 @@ void controlPeripheral(BLEDevice peripheral) {
   }
   
   while (peripheral.connected()) {
-
-      delay(2000);
-      gesture = !gesture;
+      data_rcvd = digitalRead(5);   // read one byte from serial buffer and save to data_rcvd
+      if(data_rcvd==0) gesture = 0;
+      if(data_rcvd==1) gesture = 1;
       
       gestureCharacteristic.writeValue((byte)gesture);
       Serial.println(gesture);
