@@ -25,7 +25,7 @@ BLEBoolCharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLE
 
 void setup() {
   Serial.begin(9600);
-  while (!Serial);
+  //while (!Serial);
 
   if (!BLE.begin()) {
     Serial.println("- Starting BLE module failed!");
@@ -69,6 +69,4 @@ void loop() {
 void writeGesture(bool gesture) {
   Serial.println("it's this: ");
   Serial.println(gesture);
-
-
 }
