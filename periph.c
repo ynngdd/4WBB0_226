@@ -26,7 +26,10 @@ BLEBoolCharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLE
 void setup() {
   Serial.begin(9600);
   //while (!Serial);
-
+  
+  pinMode(4, OUTPUT); // LED
+  pinMode(6, OUTPUT); // BUZZER
+  
   if (!BLE.begin()) {
     Serial.println("- Starting BLE module failed!");
     while (1);
@@ -58,7 +61,14 @@ void loop() {
       Serial.println("centralConn");
            // if (gestureCharacteristic.written()) {
       gesture = gestureCharacteristic.value();
-      writeGesture(gesture);
+      if(gesture) {
+      writeGesture(gesture);        
+        }
+      else {
+        digitalWrite(4, LOW);    // turn the LED off by making the voltage LOW
+        noTone(5);
+        }
+
           //  }
     }
 
@@ -69,4 +79,11 @@ void loop() {
 void writeGesture(bool gesture) {
   Serial.println("it's this: ");
   Serial.println(gesture);
+  digitalWrite(4, HIGH);   // turn the LED on (HIGH is the voltage level)
+  tone(6, 1000); // Send 1KHz sound signal...
+  delay(1000);                       // wait for a second
+  digitalWrite(4, LOW);    // turn the LED off by making the voltage LOW
+  noTone(6);
+  delay(1000);                       // wait for a second
+  
 }
